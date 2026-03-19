@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>至高の隠れ家 - プライベート薪サウナ「Yu-Ru」 先行販売</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Serif+JP:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Noto Serif JP"', 'serif'],
+                        en: ['"Cormorant Garamond"', 'serif'],
+                    },
+                    colors: {
+                        gold: { DEFAULT: '#D4AF37', light: '#F3E5AB', dark: '#AA8822' },
+                        neutral: { 950: '#0a0a0a', 900: '#171717', 800: '#262626' }
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #AA8822 0%, #D4AF37 50%, #F3E5AB 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0a; color: #f5f5f5; overflow-x: hidden; }
+        .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        @keyframes subtleZoom { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+        .bg-zoom { animation: subtleZoom 20s ease-in-out infinite alternate; }
+        .text-shadow { text-shadow: 2px 2px 8px rgba(0,0,0,0.8); }
+
+        /* ===== SVGベースの背景・画像 ===== */
+
+        /* FV: 薪の炎・暗い赤〜オレンジのグラデーション */
+        .img-fv {
+            background: radial-gradient(ellipse at 30% 60%, #5a1a00 0%, #1a0800 40%, #0a0a0a 100%),
+                        radial-gradient(ellipse at 70% 40%, #3d0f00 0%, transparent 60%);
+            background-blend-mode: screen;
+            position: relative;
+        }
+        .img-fv::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(circle at 25% 70%, rgba(200,80,0,0.35) 0%, transparent 45%),
+                radial-gradient(circle at 60% 50%, rgba(160,50,0,0.25) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(100,30,0,0.2) 0%, transparent 40%);
+        }
+
+        /* Feature01: 薪ストーブ・炎 → 深い赤〜オレンジ */
+        .img-sauna {
+            background: linear-gradient(135deg, #1a0500 0%, #4a1200 40%, #2d0800 100%);
+            position: relative; overflow: hidden;
+        }
+        .img-sauna::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(220,100,10,0.6) 0%, rgba(180,60,0,0.3) 30%, transparent 65%),
+                radial-gradient(ellipse at 30% 60%, rgba(255,140,0,0.2) 0%, transparent 40%);
+        }
+        .img-sauna::after {
+            content: '';
+            position: absolute;
+            bottom: 15%; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 80px;
+            background: radial-gradient(ellipse at 50% 100%, rgba(255,160,0,0.9) 0%, rgba(255,80,0,0.6) 40%, transparent 70%);
+            filter: blur(8px);
+            animation: flicker 2s ease-in-out infinite alternate;
+        }
+        @keyframes flicker {
+            0%   { opacity: 0.8; transform: translateX(-50%) scaleX(1); }
+            50%  { opacity: 1;   transform: translateX(-48%) scaleX(1.05); }
+            100% { opacity: 0.7; transform: translateX(-52%) scaleX(0.95); }
+        }
+
+        /* Feature02: 自然景色 → 緑〜青空 */
+        .img-nature {
+            background: linear-gradient(180deg, #0d1f0a 0%, #1a3d12 30%, #2d5a1e 60%, #1a2e0d 100%);
+            position: relative; overflow: hidden;
+        }
+        .img-nature::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg, #0a1a2e 0%, #1a3a5c 20%, transparent 50%),
+                radial-gradient(ellipse at 50% 30%, rgba(255,255,200,0.08) 0%, transparent 60%);
+        }
+        .img-nature::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0; height: 45%;
+            background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(20,50,15,0.5) 40%,
+                rgba(10,25,8,0.8) 100%);
+        }
+
+        /* Feature03: プライベート空間 → 落ち着いたダーク木調 */
+        .img-private {
+            background: linear-gradient(135deg, #1a1208 0%, #2d2010 50%, #1a1208 100%);
+            position: relative; overflow: hidden;
+        }
+        .img-private::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0px, transparent 1px, transparent 40px, rgba(255,255,255,0.015) 41px),
+                radial-gradient(ellipse at 50% 50%, rgba(212,175,55,0.08) 0%, transparent 70%);
+        }
+
+        /* Course Premium: ラグジュアリー暖色 */
+        .img-premium {
+            background: linear-gradient(135deg, #1a0d00 0%, #3d1f00 50%, #1a0d00 100%);
+            position: relative; overflow: hidden;
+        }
+        .img-premium::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(212,175,55,0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(180,100,0,0.15) 0%, transparent 50%);
+        }
+
+        /* Course Standard: ヒノキ・木目 */
+        .img-standard {
+            background: linear-gradient(135deg, #0d0a05 0%, #2a1f0d 50%, #1a1208 100%);
+            position: relative; overflow: hidden;
+        }
+        .img-standard::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                repeating-linear-gradient(5deg,
+                    rgba(139,100,40,0.08) 0px, rgba(100,70,20,0.04) 2px, transparent 3px, transparent 18px),
+                radial-gradient(ellipse at 50% 30%, rgba(180,130,50,0.1) 0%, transparent 60%);
+        }
+
+        /* Course Simple: アウトドア・草原 */
+        .img-simple {
+            background: linear-gradient(180deg, #0a1a08 0%, #15300f 40%, #0d2008 100%);
+            position: relative; overflow: hidden;
+        }
+        .img-simple::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg, #0a1528 0%, #1a2a40 25%, transparent 55%),
+                radial-gradient(ellipse at 50% 20%, rgba(180,200,255,0.06) 0%, transparent 50%);
+        }
+
+        /* Closing: 暗い深夜の森 */
+        .img-closing {
+            background: linear-gradient(180deg, #050a05 0%, #0d1a0d 40%, #050a05 100%);
+            position: relative;
+        }
+        .img-closing::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(30,60,20,0.4) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 70%, rgba(20,40,15,0.3) 0%, transparent 40%);
+        }
+
+        /* SVGアイコン装飾 */
+        .sauna-icon { opacity: 0.12; }
+        .nature-icon { opacity: 0.10; }
+    </style>
+</head>
+<body class="font-serif antialiased selection:bg-gold selection:text-black">
+
+    <!-- Fixed Header -->
+    <header class="fixed top-0 w-full z-50 transition-all duration-300 bg-neutral-950/80 backdrop-blur-md border-b border-white/10" id="header">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-en text-2xl tracking-widest text-gold font-semibold">Yu-Ru</div>
+            <a href="#cta" class="hidden md:inline-block bg-gold-gradient text-neutral-950 px-6 py-2 rounded-sm text-sm font-bold tracking-wider hover:opacity-90 transition-opacity">
+                先行販売に申し込む
+            </a>
+        </div>
+    </header>
+
+    <!-- 1. First View -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 img-fv bg-zoom"></div>
+        <!-- 炎のSVG装飾 -->
+        <div class="absolute inset-0 z-0 flex items-end justify-center pb-0 pointer-events-none">
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto opacity-20" preserveAspectRatio="xMidYMax slice">
+                <defs>
+                    <radialGradient id="fire1" cx="50%" cy="100%" r="60%">
+                        <stop offset="0%" stop-color="#ff8c00" stop-opacity="0.9"/>
+                        <stop offset="40%" stop-color="#cc4400" stop-opacity="0.5"/>
+                        <stop offset="100%" stop-color="#660000" stop-opacity="0"/>
+                    </radialGradient>
+                    <radialGradient id="fire2" cx="50%" cy="100%" r="40%">
+                        <stop offset="0%" stop-color="#ffcc00" stop-opacity="0.8"/>
+                        <stop offset="60%" stop-color="#ff6600" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#cc2200" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+                <ellipse cx="400" cy="400" rx="350" ry="200" fill="url(#fire1)"/>
+                <ellipse cx="400" cy="400" rx="180" ry="130" fill="url(#fire2)"/>
+                <!-- 薪 -->
+                <rect x="320" y="370" width="160" height="18" rx="9" fill="#3d1f00" opacity="0.8"/>
+                <rect x="310" y="360" width="180" height="16" rx="8" fill="#2d1500" opacity="0.6" transform="rotate(-8 400 368)"/>
+            </svg>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-neutral-950 z-0"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-16">
+            <div class="fade-up inline-block border border-gold text-gold px-4 py-1.5 rounded-full text-xs md:text-sm tracking-widest mb-8 bg-black/50 backdrop-blur-sm">
+                <span class="font-bold">【2026年5月31日までの期間限定】</span><br class="md:hidden">最大150万円以上お得になる、VIP使い放題プラン先行販売
+            </div>
+            <p class="fade-up delay-100 text-lg md:text-xl text-gray-300 tracking-[0.2em] mb-6">組数限定・完全プライベートサウナ</p>
+            <h1 class="fade-up delay-200 text-3xl md:text-5xl lg:text-6xl font-bold leading-tight md:leading-snug tracking-widest text-white text-shadow mb-12">
+                喧騒を離れ、<br class="md:hidden">大自然と薪の香りに抱かれる。<br>
+                <span class="text-gold mt-4 block text-2xl md:text-4xl lg:text-5xl">エグゼクティブのための、<br class="md:hidden">至高の隠れ家。</span>
+            </h1>
+            <div class="fade-up delay-300">
+                <a href="#cta" class="inline-block bg-gold-gradient text-neutral-950 px-10 py-4 rounded-sm text-lg font-bold tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(212,175,55,0.3)]">
+                    限定VIPプランを見る
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center animate-bounce">
+            <span class="text-xs tracking-widest text-gray-400 mb-2 font-en">SCROLL</span>
+            <div class="w-px h-12 bg-gold"></div>
+        </div>
+    </section>
+
+    <!-- 2. Concept -->
+    <section class="py-24 md:py-32 bg-neutral-950 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20 fade-up">
+                <p class="font-en text-gold tracking-[0.3em] mb-4 text-sm">CONCEPT</p>
+                <h2 class="text-3xl md:text-4xl tracking-widest font-semibold">日常を忘却する、3つのこだわり</h2>
+                <div class="w-12 h-px bg-gold mx-auto mt-8"></div>
+            </div>
+
+            <div class="space-y-24 md:space-y-32">
+                <!-- Feature 01: 薪サウナ -->
+                <div class="flex flex-col md:flex-row items-center gap-12 group">
+                    <div class="w-full md:w-1/2 fade-up relative overflow-hidden rounded-sm" style="aspect-ratio:16/10; min-height:220px;">
+                        <div class="absolute inset-0 img-sauna transition-all duration-700 group-hover:scale-105"></div>
+                        <!-- 薪ストーブのSVG -->
+                        <svg class="absolute inset-0 w-full h-full sauna-icon group-hover:opacity-20 transition-opacity" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+                            <!-- ストーブ本体 -->
+                            <rect x="240" y="120" width="160" height="180" rx="8" fill="#8B4513" stroke="#5a2d0c" stroke-width="3"/>
+                            <rect x="255" y="140" width="130" height="100" rx="4" fill="#1a0800"/>
+                            <!-- 炎 -->
+                            <ellipse cx="320" cy="230" rx="45" ry="55" fill="#ff6600" opacity="0.7"/>
+                            <ellipse cx="310" cy="220" rx="28" ry="40" fill="#ffcc00" opacity="0.8"/>
+                            <ellipse cx="330" cy="225" rx="20" ry="32" fill="#ff9900" opacity="0.6"/>
+                            <!-- 煙突 -->
+                            <rect x="305" y="60" width="30" height="62" rx="4" fill="#5a3010"/>
+                            <!-- 脚 -->
+                            <rect x="258" y="296" width="18" height="40" rx="3" fill="#5a2d0c"/>
+                            <rect x="364" y="296" width="18" height="40" rx="3" fill="#5a2d0c"/>
+                            <!-- 薪 -->
+                            <ellipse cx="270" cy="345" rx="55" ry="12" fill="#3d1f00" opacity="0.6"/>
+                            <ellipse cx="370" cy="345" rx="45" ry="10" fill="#2d1500" opacity="0.5"/>
+                            <!-- サウナストーン -->
+                            <circle cx="175" cy="280" r="22" fill="#2a2a2a" opacity="0.5"/>
+                            <circle cx="140" cy="300" r="16" fill="#333" opacity="0.4"/>
+                            <circle cx="465" cy="285" r="20" fill="#2a2a2a" opacity="0.5"/>
+                        </svg>
+                        <!-- 炎エフェクト -->
+                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-24 pointer-events-none" style="background: radial-gradient(ellipse at 50% 100%, rgba(255,120,0,0.5) 0%, rgba(200,60,0,0.2) 50%, transparent 80%); filter: blur(12px);"></div>
+                        <div class="absolute top-4 left-4 font-en text-6xl text-white/20 font-bold pointer-events-none">01</div>
+                    </div>
+                    <div class="w-full md:w-1/2 fade-up delay-100">
+                        <h3 class="text-2xl md:text-3xl font-semibold mb-6 tracking-wider text-gold">五感を研ぎ澄ます「薪サウナ」</h3>
+                        <p class="text-gray-400 leading-relaxed tracking-wide text-lg">
+                            こだわりの薪ストーブを採用。電熱式では決して味わえない、パチパチとはぜる音、柔らかな熱、そして深い森のような薪の香り。原始的な炎の揺らぎを見つめながら、心身を解放し、極上のリラックスへと誘います。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 02: 大自然の借景 -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-12 group">
+                    <div class="w-full md:w-1/2 fade-up relative overflow-hidden rounded-sm" style="aspect-ratio:16/10; min-height:220px;">
+                        <div class="absolute inset-0 img-nature transition-all duration-700 group-hover:scale-105"></div>
+                        <!-- 山と空のSVG -->
+                        <svg class="absolute inset-0 w-full h-full nature-icon" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                            <!-- 空 -->
+                            <defs>
+                                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#0a1f3d" stop-opacity="0.8"/>
+                                    <stop offset="100%" stop-color="#1a3a5c" stop-opacity="0.4"/>
+                                </linearGradient>
+                                <linearGradient id="mountain1" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#1a3010"/>
+                                    <stop offset="100%" stop-color="#0d1a08"/>
+                                </linearGradient>
+                                <linearGradient id="mountain2" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#2d4a1e"/>
+                                    <stop offset="100%" stop-color="#1a2e10"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="640" height="400" fill="url(#sky)"/>
+                            <!-- 星 -->
+                            <circle cx="100" cy="60" r="1.5" fill="white" opacity="0.6"/>
+                            <circle cx="200" cy="40" r="1" fill="white" opacity="0.5"/>
+                            <circle cx="350" cy="30" r="1.5" fill="white" opacity="0.7"/>
+                            <circle cx="480" cy="55" r="1" fill="white" opacity="0.5"/>
+                            <circle cx="560" cy="35" r="2" fill="white" opacity="0.6"/>
+                            <circle cx="60" cy="90" r="1" fill="white" opacity="0.4"/>
+                            <circle cx="420" cy="80" r="1.5" fill="white" opacity="0.5"/>
+                            <!-- 月 -->
+                            <circle cx="520" cy="70" r="18" fill="#f0e0a0" opacity="0.25"/>
+                            <!-- 遠景の山（桜島イメージ） -->
+                            <polygon points="320,80 450,280 190,280" fill="#1a2510" opacity="0.9"/>
+                            <polygon points="320,90 420,280 220,280" fill="#20300f" opacity="0.7"/>
+                            <!-- 手前の山 -->
+                            <polygon points="80,160 220,280 0,280" fill="url(#mountain1)" opacity="0.9"/>
+                            <polygon points="560,140 680,280 420,280" fill="url(#mountain1)" opacity="0.9"/>
+                            <!-- 山頂の雪 -->
+                            <polygon points="320,82 345,130 295,130" fill="white" opacity="0.15"/>
+                            <!-- 田園・地面 -->
+                            <rect x="0" y="270" width="640" height="130" fill="#0d1a08" opacity="0.9"/>
+                            <rect x="0" y="280" width="640" height="10" fill="#1a3010" opacity="0.6"/>
+                            <!-- 田んぼ -->
+                            <rect x="50" y="295" width="120" height="40" rx="2" fill="#1a2d10" opacity="0.5"/>
+                            <rect x="200" y="300" width="100" height="35" rx="2" fill="#152408" opacity="0.5"/>
+                            <rect x="420" y="290" width="140" height="45" rx="2" fill="#1a2d10" opacity="0.5"/>
+                            <!-- 水面の反射 -->
+                            <rect x="55" y="300" width="110" height="30" rx="2" fill="#1a3040" opacity="0.3"/>
+                            <rect x="205" y="305" width="90" height="25" rx="2" fill="#152535" opacity="0.3"/>
+                        </svg>
+                        <!-- 地平線グロー -->
+                        <div class="absolute bottom-1/3 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15), transparent);"></div>
+                        <div class="absolute top-4 right-4 font-en text-6xl text-white/20 font-bold pointer-events-none">02</div>
+                    </div>
+                    <div class="w-full md:w-1/2 fade-up delay-100">
+                        <h3 class="text-2xl md:text-3xl font-semibold mb-6 tracking-wider text-gold">絵画のような「大自然の借景」</h3>
+                        <p class="text-gray-400 leading-relaxed tracking-wide text-lg">
+                            近隣にはない雄大な山々と田園風景を独り占め。誰の目も気にせず、計算し尽くされた窓枠から切り取られる自然の息吹を感じながら、至高の自然外気浴をご堪能ください。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 03: 完全プライベート -->
+                <div class="flex flex-col md:flex-row items-center gap-12 group">
+                    <div class="w-full md:w-1/2 fade-up relative overflow-hidden rounded-sm" style="aspect-ratio:16/10; min-height:220px;">
+                        <div class="absolute inset-0 img-private transition-all duration-700 group-hover:scale-105"></div>
+                        <!-- 鍵・プライベート空間のSVG -->
+                        <svg class="absolute inset-0 w-full h-full" style="opacity:0.10;" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 部屋の窓枠 -->
+                            <rect x="180" y="60" width="280" height="280" rx="4" fill="none" stroke="#D4AF37" stroke-width="3"/>
+                            <rect x="195" y="75" width="250" height="250" rx="2" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
+                            <!-- 縦横の仕切り -->
+                            <line x1="320" y1="75" x2="320" y2="325" stroke="#D4AF37" stroke-width="1.5" opacity="0.4"/>
+                            <line x1="195" y1="200" x2="445" y2="200" stroke="#D4AF37" stroke-width="1.5" opacity="0.4"/>
+                            <!-- 鍵のアイコン -->
+                            <circle cx="320" cy="185" r="28" fill="none" stroke="#D4AF37" stroke-width="3" opacity="0.7"/>
+                            <rect x="314" y="210" width="12" height="30" rx="3" fill="#D4AF37" opacity="0.6"/>
+                            <rect x="314" y="228" width="20" height="7" rx="2" fill="#D4AF37" opacity="0.5"/>
+                            <rect x="314" y="219" width="15" height="7" rx="2" fill="#D4AF37" opacity="0.5"/>
+                        </svg>
+                        <!-- 金色のグロー -->
+                        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 50% 50%, rgba(212,175,55,0.06) 0%, transparent 70%);"></div>
+                        <div class="absolute top-4 left-4 font-en text-6xl text-white/20 font-bold pointer-events-none">03</div>
+                    </div>
+                    <div class="w-full md:w-1/2 fade-up delay-100">
+                        <h3 class="text-2xl md:text-3xl font-semibold mb-6 tracking-wider text-gold">完全プライベート「3組限定」</h3>
+                        <p class="text-gray-400 leading-relaxed tracking-wide text-lg">
+                            1日、あるいは1回の枠につきわずか3組のみのご案内。他のお客様と顔を合わせることのない、あなただけの独立したラグジュアリー空間を確約いたします。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2.5 Courses -->
+    <section class="py-24 md:py-32 bg-neutral-900 border-t border-white/5 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20 fade-up">
+                <p class="font-en text-gold tracking-[0.3em] mb-4 text-sm">COURSES</p>
+                <h2 class="text-3xl md:text-4xl tracking-widest font-semibold">趣の異なる、3つの極上空間</h2>
+                <div class="w-12 h-px bg-gold mx-auto mt-8"></div>
+                <p class="text-gray-400 mt-6 max-w-2xl mx-auto leading-relaxed">
+                    全コースにおいて、サウナハット、タオル、ポンチョといったアメニティを完備。<br class="hidden md:block">手ぶらで気軽にご来店いただけます。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Premium -->
+                <div class="fade-up bg-neutral-950 border border-gold/30 rounded-sm overflow-hidden group">
+                    <div class="h-48 relative overflow-hidden">
+                        <div class="absolute inset-0 img-premium group-hover:scale-110 transition-transform duration-700"></div>
+                        <svg class="absolute inset-0 w-full h-full" style="opacity:0.22;" viewBox="0 0 400 192" xmlns="http://www.w3.org/2000/svg">
+                            <!-- ラグジュアリーサウナ内観 -->
+                            <!-- 床 -->
+                            <rect x="0" y="130" width="400" height="62" fill="#2d1500" opacity="0.8"/>
+                            <!-- 壁 -->
+                            <rect x="0" y="0" width="400" height="135" fill="#1a0d00" opacity="0.6"/>
+                            <!-- 窓から光 -->
+                            <rect x="260" y="20" width="100" height="110" rx="2" fill="#3d2800" opacity="0.5"/>
+                            <rect x="265" y="25" width="90" height="100" rx="1" fill="#5a3c00" opacity="0.3"/>
+                            <polygon points="265,25 355,25 400,0 220,0" fill="#D4AF37" opacity="0.06"/>
+                            <!-- サウナベンチ -->
+                            <rect x="20" y="100" width="220" height="15" rx="3" fill="#5a3010" opacity="0.9"/>
+                            <rect x="20" y="115" width="220" height="25" rx="2" fill="#3d1f00" opacity="0.8"/>
+                            <rect x="20" y="70" width="180" height="12" rx="3" fill="#4a2808" opacity="0.8"/>
+                            <!-- 薪ストーブ -->
+                            <rect x="290" y="85" width="55" height="55" rx="4" fill="#3d1f00" opacity="0.9"/>
+                            <rect x="298" y="93" width="38" height="30" rx="2" fill="#1a0800" opacity="0.8"/>
+                            <ellipse cx="317" cy="108" rx="14" ry="12" fill="#ff6600" opacity="0.5"/>
+                            <ellipse cx="317" cy="108" rx="7" ry="8" fill="#ffcc00" opacity="0.6"/>
+                            <!-- 煙突 -->
+                            <rect x="308" y="50" width="18" height="37" rx="3" fill="#2d1500" opacity="0.8"/>
+                            <!-- 金のライン装飾 -->
+                            <rect x="0" y="97" width="400" height="1" fill="#D4AF37" opacity="0.15"/>
+                        </svg>
+                        <!-- 炎の光 -->
+                        <div class="absolute bottom-0 right-16 w-20 h-16" style="background: radial-gradient(ellipse at 50% 100%, rgba(255,120,0,0.35) 0%, transparent 70%); filter: blur(8px);"></div>
+                        <div class="absolute top-0 left-0 bg-gold text-black px-4 py-1 font-bold tracking-widest text-sm z-10">Premium</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold mb-4 text-white">最高品質のトレーラーサウナ</h3>
+                        <div class="text-gold font-bold mb-4">通常価格(2h): 14,000〜16,000円<span class="text-xs font-normal ml-1">（税込）</span></div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            水風呂、休憩スペース、ウェルカムドリンクを完備。全ての設備をこだわり抜いた至高の空間。最高の立地で桜島の景色を臨む事ができます。日常を忘れ心身を至高の癒しを提供いたします。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Standard -->
+                <div class="fade-up delay-100 bg-neutral-950 border border-white/10 rounded-sm overflow-hidden group hover:border-white/30 transition-colors">
+                    <div class="h-48 relative overflow-hidden">
+                        <div class="absolute inset-0 img-standard group-hover:scale-110 transition-transform duration-700"></div>
+                        <svg class="absolute inset-0 w-full h-full" style="opacity:0.25;" viewBox="0 0 400 192" xmlns="http://www.w3.org/2000/svg">
+                            <!-- バレルサウナ（樽型） -->
+                            <defs>
+                                <linearGradient id="barrel" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#8B5e3c"/>
+                                    <stop offset="100%" stop-color="#5a3010"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- 地面 -->
+                            <rect x="0" y="155" width="400" height="37" fill="#1a1208" opacity="0.8"/>
+                            <!-- 樽の胴体（楕円で表現） -->
+                            <ellipse cx="200" cy="105" rx="110" ry="90" fill="url(#barrel)" opacity="0.8"/>
+                            <!-- 木目のライン -->
+                            <ellipse cx="200" cy="105" rx="108" ry="88" fill="none" stroke="#3d1f00" stroke-width="2" opacity="0.6"/>
+                            <line x1="110" y1="60" x2="108" y2="150" stroke="#3d1f00" stroke-width="1.5" opacity="0.4"/>
+                            <line x1="135" y1="25" x2="133" y2="185" stroke="#3d1f00" stroke-width="1.5" opacity="0.4"/>
+                            <line x1="165" y1="16" x2="163" y2="194" stroke="#3d1f00" stroke-width="1" opacity="0.3"/>
+                            <line x1="200" y1="15" x2="200" y2="195" stroke="#3d1f00" stroke-width="1" opacity="0.3"/>
+                            <line x1="235" y1="16" x2="237" y2="194" stroke="#3d1f00" stroke-width="1" opacity="0.3"/>
+                            <line x1="265" y1="25" x2="267" y2="185" stroke="#3d1f00" stroke-width="1.5" opacity="0.4"/>
+                            <line x1="290" y1="60" x2="292" y2="150" stroke="#3d1f00" stroke-width="1.5" opacity="0.4"/>
+                            <!-- 金属バンド -->
+                            <ellipse cx="200" cy="75" rx="110" ry="12" fill="none" stroke="#8B7355" stroke-width="3" opacity="0.5"/>
+                            <ellipse cx="200" cy="135" rx="110" ry="12" fill="none" stroke="#8B7355" stroke-width="3" opacity="0.5"/>
+                            <!-- ドア -->
+                            <rect x="162" y="65" width="76" height="88" rx="6" fill="#3d1f00" opacity="0.9"/>
+                            <rect x="167" y="70" width="66" height="78" rx="4" fill="#2d1500" opacity="0.7"/>
+                            <circle cx="222" cy="110" r="5" fill="#8B7355" opacity="0.8"/>
+                            <!-- 煙突 -->
+                            <rect x="192" y="10" width="16" height="35" rx="3" fill="#5a3010" opacity="0.7"/>
+                            <!-- ヒノキのテクスチャ感 -->
+                            <text x="200" y="115" font-family="serif" font-size="11" fill="#D4AF37" opacity="0.2" text-anchor="middle">檜</text>
+                        </svg>
+                        <div class="absolute top-0 left-0 bg-neutral-800 text-white px-4 py-1 font-bold tracking-widest text-sm z-10">Standard</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold mb-4 text-white">ヒノキ香るバレルサウナ</h3>
+                        <div class="text-white mb-4">通常価格(2h): 10,000〜12,000円<span class="text-xs font-normal ml-1 text-gray-400">（税込）</span></div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            クオリティと価格のバランスが取れたコース。目の前に鹿児島の大自然をのぞみ、最初から最後まで自然を満喫できる最高の空間をご提供いたします。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Simple -->
+                <div class="fade-up delay-200 bg-neutral-950 border border-white/10 rounded-sm overflow-hidden group hover:border-white/30 transition-colors">
+                    <div class="h-48 relative overflow-hidden">
+                        <div class="absolute inset-0 img-simple group-hover:scale-110 transition-transform duration-700"></div>
+                        <svg class="absolute inset-0 w-full h-full" style="opacity:0.22;" viewBox="0 0 400 192" xmlns="http://www.w3.org/2000/svg">
+                            <!-- アウトドア・テントサウナ -->
+                            <defs>
+                                <linearGradient id="tentsky" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#0a1528" stop-opacity="0.9"/>
+                                    <stop offset="60%" stop-color="#1a2a3d" stop-opacity="0.6"/>
+                                    <stop offset="100%" stop-color="#0d1a08" stop-opacity="0.8"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="400" height="192" fill="url(#tentsky)"/>
+                            <!-- 星 -->
+                            <circle cx="60" cy="25" r="1.5" fill="white" opacity="0.7"/>
+                            <circle cx="130" cy="15" r="1" fill="white" opacity="0.5"/>
+                            <circle cx="220" cy="30" r="1.5" fill="white" opacity="0.6"/>
+                            <circle cx="310" cy="20" r="1" fill="white" opacity="0.5"/>
+                            <circle cx="370" cy="35" r="2" fill="white" opacity="0.7"/>
+                            <circle cx="180" cy="10" r="1" fill="white" opacity="0.4"/>
+                            <!-- 遠景の山 -->
+                            <polygon points="0,120 80,60 160,120" fill="#0d1a08" opacity="0.8"/>
+                            <polygon points="240,120 340,50 440,120" fill="#0d1a08" opacity="0.8"/>
+                            <polygon points="80,120 180,70 280,120" fill="#152310" opacity="0.7"/>
+                            <!-- 地面・草 -->
+                            <rect x="0" y="140" width="400" height="52" fill="#0d1a08" opacity="0.9"/>
+                            <!-- テントサウナ（三角） -->
+                            <polygon points="200,40 90,145 310,145" fill="#2a3d20" opacity="0.9"/>
+                            <polygon points="200,42 92,145 308,145" fill="#203015" opacity="0.7"/>
+                            <!-- テントの縫い目 -->
+                            <line x1="200" y1="42" x2="200" y2="145" stroke="#3d5a28" stroke-width="1.5" opacity="0.5"/>
+                            <!-- テント入口 -->
+                            <polygon points="200,80 170,145 230,145" fill="#0d1a08" opacity="0.7"/>
+                            <!-- 薪の火 -->
+                            <ellipse cx="200" cy="160" rx="20" ry="6" fill="#ff6600" opacity="0.4"/>
+                            <ellipse cx="200" cy="157" rx="10" ry="8" fill="#ffcc00" opacity="0.5"/>
+                            <!-- ロープ -->
+                            <line x1="90" y1="90" x2="30" y2="150" stroke="#5a4a2a" stroke-width="1.5" opacity="0.4"/>
+                            <line x1="310" y1="90" x2="370" y2="150" stroke="#5a4a2a" stroke-width="1.5" opacity="0.4"/>
+                            <!-- 川・水 -->
+                            <path d="M0,175 Q50,170 100,178 Q150,185 200,178 Q250,172 300,180 Q350,188 400,178" fill="none" stroke="#1a3040" stroke-width="4" opacity="0.5"/>
+                        </svg>
+                        <div class="absolute top-0 left-0 bg-neutral-800 text-white px-4 py-1 font-bold tracking-widest text-sm z-10">Simple</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-xl font-bold mb-4 text-white">自然を遊ぶテントサウナ</h3>
+                        <div class="text-white mb-4">通常価格(2h): 8,000〜10,000円<span class="text-xs font-normal ml-1 text-gray-400">（税込）</span></div>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            リーズナブルにかつレジャー感を好む方におすすめ。テントサウナを採用することで低価格、レジャー感を実現。リラックスはもちろん、友人同士でエンタメとしての利用にも最適です。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. VIP Plan -->
+    <section class="py-24 md:py-32 bg-neutral-900 border-t border-b border-white/5 relative" id="plan">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+            <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-gold blur-[150px]"></div>
+            <div class="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-gold blur-[150px]"></div>
+        </div>
+        <div class="max-w-5xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 fade-up">
+                <span class="inline-block border border-gold text-gold px-4 py-1 rounded-sm text-sm tracking-widest mb-4">先行販売限定</span>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-widest mb-6 leading-tight">先行VIPプラン</h2>
+                <p class="text-lg md:text-xl text-gray-300">Premiumルーム（通常14,000〜16,000円）を含む、<br class="hidden md:block">すべてのルームが使い放題となる究極のパスポート。</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="order-3 md:order-3 fade-up delay-200 md:delay-0 bg-neutral-950 border border-white/10 p-8 rounded-sm text-center hover:border-gold/50 transition-colors">
+                    <h3 class="text-xl text-gray-400 tracking-widest mb-2">3ヶ月</h3>
+                    <div class="text-lg mb-4">使い放題</div>
+                    <div class="text-3xl font-bold font-en text-white mb-2">200,000<span class="text-sm font-sans ml-1 text-gray-500">円</span></div>
+                    <div class="text-sm text-gray-500 mb-6 mt-2">税込 220,000円</div>
+                    <div class="w-full h-px bg-white/10 mb-6"></div>
+                    <p class="text-sm text-gray-400">お試し利用に最適</p>
+                </div>
+                <div class="order-1 md:order-2 fade-up bg-neutral-950 border-2 border-gold p-8 rounded-sm text-center relative transform md:-translate-y-4 shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gold text-black px-6 py-1 rounded-full text-xs font-bold tracking-widest">MOST POPULAR</div>
+                    <h3 class="text-2xl text-gold tracking-widest mb-2 mt-2">12ヶ月</h3>
+                    <div class="text-xl mb-4 font-bold text-white">使い放題</div>
+                    <div class="text-5xl font-bold font-en text-gold mb-2">500,000<span class="text-sm font-sans ml-1 text-gray-500">円</span></div>
+                    <div class="text-sm text-gray-400 mb-6 mt-2">税込 550,000円</div>
+                    <div class="w-full h-px bg-white/10 mb-6"></div>
+                    <p class="text-sm text-gray-300 font-semibold">年間通して極上の体験を<br>最も高い投資対効果</p>
+                </div>
+                <div class="order-2 md:order-1 fade-up delay-100 bg-neutral-950 border border-white/10 p-8 rounded-sm text-center hover:border-gold/50 transition-colors">
+                    <h3 class="text-xl text-gray-400 tracking-widest mb-2">6ヶ月</h3>
+                    <div class="text-lg mb-4">使い放題</div>
+                    <div class="text-3xl font-bold font-en text-white mb-2">300,000<span class="text-sm font-sans ml-1 text-gray-500">円</span></div>
+                    <div class="text-sm text-gray-500 mb-6 mt-2">税込 330,000円</div>
+                    <div class="w-full h-px bg-white/10 mb-6"></div>
+                    <p class="text-sm text-gray-400">季節の移ろいを楽しむ</p>
+                </div>
+            </div>
+            <div class="fade-up bg-gradient-to-br from-neutral-800 to-neutral-950 border border-gold/30 p-8 md:p-12 rounded-sm text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-2 h-full bg-gold"></div>
+                <h3 class="text-gold font-bold tracking-widest mb-4">【本プラン限定 特別特典】</h3>
+                <p class="text-xl md:text-2xl leading-relaxed">
+                    期間終了後も、通常料金が<br class="md:hidden">
+                    <span class="text-3xl md:text-4xl font-bold text-white border-b-2 border-gold pb-1 inline-block mt-2 mb-2">【永年20%OFF】</span><br class="md:hidden">
+                    でご利用いただける<span class="text-gold font-bold">永久権利</span>を付与いたします。
+                </p>
+            </div>
+            <div class="fade-up delay-200 mt-12 p-6 border border-red-900/50 bg-red-950/20 rounded-sm text-center">
+                <p class="text-red-400/90 text-sm md:text-base leading-relaxed tracking-wide font-semibold">
+                    【重要】本プランの販売は <span class="text-white text-lg border-b border-red-500">2026年5月31日</span> を最終期限としておりますが、<br class="hidden md:block">限定枠数が埋まり次第、期限を待たずに予告なく早期終了いたします。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ROI -->
+    <section class="py-24 md:py-32 bg-neutral-950">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16 fade-up">
+                <p class="font-en text-gold tracking-[0.3em] mb-4 text-sm">VALUE</p>
+                <h2 class="text-2xl md:text-3xl tracking-widest font-semibold leading-relaxed">法人利用や仲間とのシェアで、<br>投資対効果は最大化されます。</h2>
+                <div class="w-12 h-px bg-gold mx-auto mt-8"></div>
+            </div>
+            <div class="space-y-12">
+                <div class="fade-up bg-neutral-900 p-8 md:p-10 rounded-sm border border-white/5 relative">
+                    <div class="absolute -top-4 -left-4 bg-neutral-800 border border-gold text-gold px-4 py-2 font-en font-bold text-sm rounded-sm">CASE 01</div>
+                    <h3 class="text-xl font-bold mb-6 text-center tracking-widest mt-2">4組の仲間でシェアした場合</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                        <div class="w-full md:w-5/12 text-gray-400 text-sm md:text-base text-center leading-loose">
+                            通常：月2回利用(16,000円) × 12ヶ月<br>= 1組あたり <span class="text-white">384,000円</span><br>
+                            <div class="border-t border-white/20 my-3"></div>
+                            4組で利用した場合<br>384,000円 × 4 = <span class="text-white line-through">1,536,000円</span>
+                        </div>
+                        <div class="hidden md:block w-px h-24 bg-white/20"></div>
+                        <div class="w-full md:w-6/12 text-center">
+                            <p class="text-lg text-white mb-2">▶︎これがたったの</p>
+                            <p class="text-4xl md:text-5xl font-bold text-gold tracking-widest font-en my-4">500,000<span class="text-xl font-sans text-white ml-1">円！</span></p>
+                            <p class="text-sm text-gray-400">（約100万円以上お得）</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="fade-up delay-100 bg-neutral-900 p-8 md:p-10 rounded-sm border border-white/5 relative">
+                    <div class="absolute -top-4 -left-4 bg-neutral-800 border border-gold text-gold px-4 py-2 font-en font-bold text-sm rounded-sm">CASE 02</div>
+                    <h3 class="text-xl font-bold mb-6 text-center tracking-widest mt-2">永年20%OFFを3年間使ったら…</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                        <div class="w-full md:w-6/12 text-gray-400 text-sm md:text-base text-center leading-loose">
+                            月2回の利用を3年続けた場合<br>（通常）16,000円 × 2回 × 12ヶ月 × 3年<br>= <span class="text-white line-through">1,152,000円</span><br>
+                            <div class="border-t border-white/20 my-3"></div>
+                            （特典）12,800円 × 2回 × 12ヶ月 × 3年<br>= <span class="text-gold">921,600円</span>
+                        </div>
+                        <div class="hidden md:block w-px h-24 bg-white/20"></div>
+                        <div class="w-full md:w-5/12 text-center">
+                            <p class="text-sm text-gray-400 mb-2">差額 (1,152,000 - 921,600)</p>
+                            <p class="text-3xl md:text-4xl font-bold text-white tracking-widest"><span class="text-4xl md:text-5xl text-gold font-en mr-2">230,400</span>円</p>
+                            <p class="text-xl text-white mt-2 font-bold tracking-widest">もおトク！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-gray-500 text-sm mt-8 fade-up delay-200">※シミュレーションはご提示の金額に基づく目安です。</p>
+        </div>
+    </section>
+
+    <!-- 5. Closing CTA -->
+    <section class="py-32 relative overflow-hidden" id="cta">
+        <div class="absolute inset-0 z-0 img-closing"></div>
+        <!-- 深夜の森のSVG -->
+        <svg class="absolute inset-0 w-full h-full z-0" style="opacity:0.18;" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <!-- 星空 -->
+            <rect width="1200" height="600" fill="#050a08" opacity="0.5"/>
+            <circle cx="100" cy="50" r="1.5" fill="white" opacity="0.6"/>
+            <circle cx="250" cy="30" r="1" fill="white" opacity="0.5"/>
+            <circle cx="400" cy="60" r="2" fill="white" opacity="0.7"/>
+            <circle cx="600" cy="25" r="1.5" fill="white" opacity="0.6"/>
+            <circle cx="800" cy="45" r="1" fill="white" opacity="0.5"/>
+            <circle cx="950" cy="35" r="2" fill="white" opacity="0.6"/>
+            <circle cx="1100" cy="55" r="1.5" fill="white" opacity="0.5"/>
+            <circle cx="700" cy="80" r="1" fill="white" opacity="0.4"/>
+            <!-- 月 -->
+            <circle cx="900" cy="80" r="30" fill="#f0e0a0" opacity="0.12"/>
+            <!-- 遠景の木々シルエット（左） -->
+            <polygon points="0,400 30,200 60,400" fill="#060e06" opacity="0.9"/>
+            <polygon points="40,400 80,180 120,400" fill="#070f07" opacity="0.9"/>
+            <polygon points="100,400 140,220 180,400" fill="#060e06" opacity="0.9"/>
+            <polygon points="150,400 200,160 250,400" fill="#050d05" opacity="0.9"/>
+            <!-- 遠景の木々（右） -->
+            <polygon points="950,400 990,170 1030,400" fill="#060e06" opacity="0.9"/>
+            <polygon points="1010,400 1060,200 1110,400" fill="#070f07" opacity="0.9"/>
+            <polygon points="1080,400 1130,180 1180,400" fill="#060e06" opacity="0.9"/>
+            <polygon points="1140,400 1200,160 1260,400" fill="#050d05" opacity="0.9"/>
+            <!-- 中央のサウナのぼんやりした光 -->
+            <ellipse cx="600" cy="420" rx="200" ry="80" fill="#D4AF37" opacity="0.04"/>
+            <!-- 地面 -->
+            <rect x="0" y="390" width="1200" height="210" fill="#050a05" opacity="0.7"/>
+        </svg>
+        <div class="absolute inset-0 bg-neutral-950/75 z-0"></div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <h2 class="fade-up text-3xl md:text-4xl font-bold tracking-widest leading-relaxed mb-8">
+                永遠に続く20%OFFの特権と、<br>極上のプライベートサウナ使い放題。
+            </h2>
+            <p class="fade-up delay-100 text-lg md:text-xl text-gray-300 leading-loose mb-12">
+                この「静寂」と「特権」を手に入れるチャンスは、<br class="hidden md:block">
+                <strong class="text-gold text-2xl border-b border-gold mx-2">2026年5月31日</strong> まで。<br>
+                <span class="text-sm md:text-base text-gray-400 mt-4 block">ただし、上限枠に達し次第、明日にも募集を打ち切る可能性がございます。</span>
+            </p>
+            <p class="fade-up delay-200 text-xl md:text-2xl font-bold text-white mb-12 tracking-widest">
+                二度とないこの条件で、<br class="md:hidden">あなただけのサウナを手に入れませんか？
+            </p>
+            <div class="fade-up delay-300">
+                <a href="#" class="inline-block bg-gold-gradient text-neutral-950 px-8 py-5 md:px-16 md:py-6 rounded-sm text-xl md:text-2xl font-bold tracking-widest hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] transition-all duration-300">
+                    限定VIPプランに申し込む
+                </a>
+            </div>
+            <div class="mt-8 text-gray-500 text-sm fade-up delay-300">
+                <p>クレジットカード（VISA, MasterCard, JCB, AMEX）/ 銀行振込 対応</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black pt-20 pb-12 border-t border-white/10">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-12 items-center mb-16">
+                <div class="w-full md:w-1/2 text-center md:text-left">
+                    <div class="font-en text-3xl tracking-widest text-gold mb-6">Yu-Ru</div>
+                    <h3 class="text-lg text-white font-bold mb-4 tracking-widest">プライベート薪サウナ「Yu-Ru」</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed text-sm">〒899-5203<br>鹿児島県姶良市加治木町小山田２１４４</p>
+                    <ul class="space-y-3 text-gray-300 text-sm inline-block text-left">
+                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span>鹿児島市街地より車で約40分</li>
+                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 bg-gold rounded-full"></span>鹿児島空港より車で約15分</li>
+                    </ul>
+                    <p class="text-xs text-gray-500 mt-6">※駐車場完備</p>
+                </div>
+                <div class="w-full md:w-1/2 h-64 bg-neutral-900 rounded-sm overflow-hidden border border-white/10">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13583.561578500293!2d130.6471649!3d31.7325514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x353e8bd1bc2b8ecf%3A0xc3f6f9fb109590de!2z44CSODk5LTUyMDMg6bm_5YWQ5bO255yM5ae26Imv5biC5Yqg5rK75pyo55S65bCP5bGx55Sw77yS77yR77yU77yU!5e0!3m2!1sja!2sjp!4v1716300000000!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col items-center">
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-500 mb-8">
+                    <a href="#" class="hover:text-gold transition-colors">運営会社</a>
+                    <a href="#" class="hover:text-gold transition-colors">特定商取引法に基づく表記</a>
+                    <a href="#" class="hover:text-gold transition-colors">プライバシーポリシー</a>
+                    <a href="#" class="hover:text-gold transition-colors">利用規約</a>
+                    <a href="#" class="hover:text-gold transition-colors">お問い合わせ</a>
+                </div>
+                <p class="text-xs text-gray-600 font-en tracking-wider">&copy; 2026 Yu-Ru. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-neutral-950/95', 'shadow-lg');
+                    header.classList.remove('bg-neutral-950/80');
+                } else {
+                    header.classList.add('bg-neutral-950/80');
+                    header.classList.remove('bg-neutral-950/95', 'shadow-lg');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
